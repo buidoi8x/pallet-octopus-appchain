@@ -297,7 +297,34 @@ impl pallet_octopus_appchain::Config for Runtime {
 }
 
 
-
+// Create the runtime by composing the FRAME pallets that were previously configured.
+construct_runtime!(
+	pub enum Runtime where
+		Block = Block,
+		NodeBlock = opaque::Block,
+		UncheckedExtrinsic = UncheckedExtrinsic
+	{
+		System: frame_system::{Pallet, Call, Config, Storage, Event<T>},
+		Babe: pallet_babe::{Pallet, Call, Storage, Config, ValidateUnsigned},
+		Timestamp: pallet_timestamp::{Pallet, Call, Storage, Inherent},
+		Authorship: pallet_authorship::{Pallet, Call, Storage, Inherent},
+		Balances: pallet_balances::{Pallet, Call, Storage, Config<T>, Event<T>},
+		TransactionPayment: pallet_transaction_payment::{Pallet, Storage},
+		Staking: pallet_staking::{Pallet, Call, Config<T>, Storage, Event<T>},
+		Session: pallet_session::{Pallet, Call, Storage, Event, Config<T>},
+		Grandpa: pallet_grandpa::{Pallet, Call, Storage, Config, Event, ValidateUnsigned},
+		Beefy: pallet_beefy::{Pallet, Storage, Config<T>},
+		Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
+		ImOnline: pallet_im_online::{Pallet, Call, Storage, Event<T>, ValidateUnsigned, Config<T>},
+		Historical: pallet_session_historical::{Pallet},
+		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Call, Storage},
+		Assets: pallet_assets::{Pallet, Call, Storage, Event<T>},
+		Mmr: pallet_mmr::{Pallet, Storage},
+		OctopusAppchain: pallet_octopus_appchain::{Pallet, Call, Storage, Config<T>, Event<T>, ValidateUnsigned},
+		// Include the custom logic from the pallet-template in the runtime.
+		TemplateModule: pallet_template::{Pallet, Call, Storage, Event<T>},
+	}
+);
 /// Most of the functions are moved outside of the `decl_module!` macro.
 ///
 /// This greatly helps with error messages, as the ones inside the macro
