@@ -34,6 +34,8 @@ hex = { default-features = false, version = '0.4', features = ['alloc'] }
 lite-json = { default-features = false, version = '0.1' }
 serde = { optional = true, version = '1.0.119' }
 
+pallet-session = { default-features = false, version = '3.0.0' }
+pallet-octopus-appchain = { default-features = false, git = 'https://github.com/octopus-network/pallet-octopus-appchain.git' }
 [dev-dependencies]
 sp-keystore = { default-features = false, version = '0.9.0' }
 
@@ -53,4 +55,7 @@ std = [
     'hex/std',
     'lite-json/std',
     'serde',
+     # --snip--
+    'pallet-session/std',
+    'pallet-octopus-appchain/std',
 ]
